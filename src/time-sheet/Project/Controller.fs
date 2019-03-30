@@ -9,20 +9,20 @@ type ProjectsController() =
 
     [<HttpGet>]
     member this.Get() =
-        Repository.findAll()
+        Repository.FindAll()
 
     [<HttpGet("{id}")>]
     member this.Get(id: Guid) =
-        Repository.findById(id)
+        Repository.FindById(id)
 
     [<HttpPost>]
-    member this.Post([<FromBody>] value: string) =
-        ()
+    member this.Post([<FromBody>] project: Model) =
+        Repository.Save(Guid.NewGuid(), project)
 
     [<HttpPut("{id}")>]
-    member this.Put(id: int, [<FromBody>] value: string) =
-        ()
+    member this.Put(id: Guid, [<FromBody>] project: Model) =
+        Repository.Save(id, project)
 
     [<HttpDelete("{id}")>]
-    member this.Delete(id: int) =
-        ()
+    member this.Delete(id: Guid) =
+        Repository.Delete(id)

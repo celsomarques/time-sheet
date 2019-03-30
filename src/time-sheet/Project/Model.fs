@@ -6,6 +6,8 @@ open TimeSheet
 
 type Model(Id: Guid, Name: string, Description: string) =
 
+    new() = Model(Id = Guid.Empty, Name = "", Description = "")
+
     member this.Id = Id
     member this.Name = Name
     member this.Description = Description
