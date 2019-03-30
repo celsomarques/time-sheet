@@ -1,0 +1,17 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "time-sheet", "time-sheet.fsproj", "{EEEFE6F9-3674-411B-BE25-34AA4CFFA257}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EEEFE6F9-3674-411B-BE25-34AA4CFFA257}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEEFE6F9-3674-411B-BE25-34AA4CFFA257}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEEFE6F9-3674-411B-BE25-34AA4CFFA257}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEEFE6F9-3674-411B-BE25-34AA4CFFA257}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

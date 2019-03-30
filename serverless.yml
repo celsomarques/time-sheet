@@ -1,0 +1,17 @@
+service: time-sheet
+
+provider:
+  name: aws
+  runtime: dotnetcore2.1
+  region: us-east-1
+
+package:
+  artifact: src/time-sheet/bin/Release/netcoreapp2.1/deploy-package.zip
+
+functions:
+  api:
+    handler: time-sheet::TimeSheet.LambdaEntryPoint::FunctionHandlerAsync
+    events:
+     - http:
+         path: /{proxy+}
+         method: ANY
