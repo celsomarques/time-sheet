@@ -9,10 +9,12 @@
   <ItemGroup>
     <Folder Include="Lib\" />
     <Folder Include="Project\" />
+    <Folder Include="Base\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="migrations\migrations.csproj" />
     <Compile Include="Lib\Postgres.fs" />
+    <Compile Include="Base\BaseRepository.fs" />
     <Compile Include="Project\Model.fs" />
     <Compile Include="Project\Repository.fs" />
     <Compile Include="Project\Controller.fs" />

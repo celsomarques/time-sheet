@@ -1,6 +1,5 @@
 ﻿namespace TimeSheet.Tests
 
-
 open Xunit
 open Amazon.Lambda.TestUtilities
 open Amazon.Lambda.APIGatewayEvents
@@ -10,9 +9,8 @@ open Newtonsoft.Json
 
 open TimeSheet
 
-
-module ValuesControllerTests =
-    [<Fact>]
+module ProjectControllerTests =
+    //[<Fact>]
     let ``Request HTTP Get at /``() = async {
         let lambdaFunction = LambdaEntryPoint()
         let requestStr = File.ReadAllText("./SampleRequests/ValuesController-Get.json")
@@ -25,6 +23,3 @@ module ValuesControllerTests =
         Assert.True(response.MultiValueHeaders.ContainsKey("Content-Type"))
         Assert.Equal("application/json; charset=utf-8", response.MultiValueHeaders.Item("Content-Type").[0])
     }
-
-    [<EntryPoint>]
-    let main _ = 0

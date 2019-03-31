@@ -6,11 +6,16 @@
     <EnableDefaultContentItems>False</EnableDefaultContentItems>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="Project\" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="SampleRequests\ValuesController-Get.json" />
     <Content Include=".\SampleRequests\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Compile Include="ValuesControllerTests.fs" />
+    <Compile Include="Project\ModelTest.fs" />
+    <Compile Include="Program.fs" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.4" />
     <PackageReference Include="Amazon.Lambda.Core" Version="1.1.0" />
     <PackageReference Include="Amazon.Lambda.TestUtilities" Version="1.1.0" />

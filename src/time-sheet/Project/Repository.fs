@@ -20,37 +20,21 @@ module Repository =
 
     let DELETE_QUERY = "DELETE FROM projects WHERE id = @id"
 
-    let private GetHead(rows: Model list): Model =
-        match rows with
-        | [] -> Model()
-        | _ -> rows.Head
-
     let FindAll() =
-        Postgres.getConnection()
-            |> Sql.query FIND_ALL_QUERY
-            |> Sql.executeTable
-            |> Sql.mapEachRow Model.mapRow
+        BaseRepository.FindAll FIND_ALL_QUERY Model.mapRow
 
     let FindById(id: Guid) =
-        Postgres.getConnection()
-            |> Sql.query FIND_BY_ID
-            |> Sql.parameters [ "id", Sql.Value id ]
-            |> Sql.executeTable
-            |> Sql.mapEachRow Model.mapRow
-            |> GetHead
+        [ "id", Sql.Value id ]
+        |> BaseRepository.FindBy FIND_BY_ID Model.mapRow
 
     let Save(id: Guid, model: Model) =
-        Postgres.getConnection()
-            |> Sql.query UPSERT_QUERY
-            |> Sql.parameters [
-                "id", Sql.Value id
-                "name", Sql.Value model.Name
-                "description", Sql.Value model.Description
-            ]
-            |> Sql.executeNonQuery
+        [
+            "id", Sql.Value id
+            "name", Sql.Value model.Name
+            "description", Sql.Value model.Description
+        ]
+        |> BaseRepository.Save UPSERT_QUERY
 
     let Delete(id: Guid) =
-        Postgres.getConnection()
-            |> Sql.query DELETE_QUERY
-            |> Sql.parameters [ "id", Sql.Value id ]
-            |> Sql.executeNonQuery
+        [ "id", Sql.Value id ]
+        |> BaseRepository.Delete DELETE_QUERY 

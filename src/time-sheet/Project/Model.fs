@@ -4,13 +4,17 @@ open System
 open Npgsql.FSharp
 open TimeSheet
 
-type Model(Id: Guid, Name: string, Description: string) =
+type Model(Id0: Guid, Name0: string, Description0: string) =
 
-    new() = Model(Id = Guid.Empty, Name = "", Description = "")
+    let mutable id: Guid = Id0
+    let mutable name: string = Name0
+    let mutable description: string = Description0
 
-    member this.Id = Id
-    member this.Name = Name
-    member this.Description = Description
+    new() = Model(Guid.Empty, "", "")
+
+    member this.Id with get() = id and set(value) = id <- value
+    member this.Name with get() = name and set(value) = name <- value
+    member this.Description with get() = description and set(value) = description <- value
 
     static member mapRow row = 
         match row with
@@ -20,10 +24,10 @@ type Model(Id: Guid, Name: string, Description: string) =
                 "name", SqlValue.String name
                 "description", SqlValue.String description
             ] ->
-            Some (Model(Id = id, Name = name, Description = description))
+            Some (Model(id, name, description))
 
         | _ -> None
 
 
     override this.ToString() =
-        sprintf "{ id: %s, name: %s, description: %s }" (Id.ToString()) Name Description
+        sprintf "{ id: %s, name: %s, description: %s }" (this.Id.ToString()) this.Name this.Description
