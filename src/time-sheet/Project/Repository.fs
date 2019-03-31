@@ -24,8 +24,7 @@ module Repository =
         BaseRepository.FindAll FIND_ALL_QUERY Model.mapRow
 
     let FindById(id: Guid) =
-        [ "id", Sql.Value id ]
-        |> BaseRepository.FindBy FIND_BY_ID Model.mapRow
+        BaseRepository.FindById FIND_BY_ID id Model.mapRow
 
     let Save(id: Guid, model: Model) =
         [
@@ -36,5 +35,4 @@ module Repository =
         |> BaseRepository.Save UPSERT_QUERY
 
     let Delete(id: Guid) =
-        [ "id", Sql.Value id ]
-        |> BaseRepository.Delete DELETE_QUERY 
+        BaseRepository.Delete DELETE_QUERY id

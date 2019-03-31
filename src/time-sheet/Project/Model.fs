@@ -4,17 +4,16 @@ open System
 open Npgsql.FSharp
 open TimeSheet
 
-type Model(Id0: Guid, Name0: string, Description0: string) =
+type Model =
 
-    let mutable id: Guid = Id0
-    let mutable name: string = Name0
-    let mutable description: string = Description0
+    struct
+        val mutable Id: Guid
+        val mutable Name: string
+        val mutable Description: string
 
-    new() = Model(Guid.Empty, "", "")
+        new(id: Guid, name: string, description: string) = {Id = id; Name = name; Description = description;}
+    end
 
-    member this.Id with get() = id and set(value) = id <- value
-    member this.Name with get() = name and set(value) = name <- value
-    member this.Description with get() = description and set(value) = description <- value
 
     static member mapRow row = 
         match row with
