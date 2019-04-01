@@ -5,6 +5,8 @@ open Microsoft.AspNetCore.Hosting
 open Microsoft.AspNetCore.Mvc
 open Microsoft.Extensions.Configuration
 open Microsoft.Extensions.DependencyInjection
+open Newtonsoft.Json
+open Newtonsoft.Json.Serialization
 
 type Startup(configuration: IConfiguration) =
     // This method gets called by the runtime. Use this method to add services to the container.
@@ -13,6 +15,12 @@ type Startup(configuration: IConfiguration) =
         // the AWSSDK.Extensions.NETCore.Setup NuGet package. Then
         // use the "AddAWSService" method to add AWS service clients.
         // services.AddAWSService<Amazon.S3.IAmazonS3>() |> ignore
+
+        JsonConvert.DefaultSettings <-
+            fun () -> 
+                let contractResolver = DefaultContractResolver()
+                contractResolver.NamingStrategy <- CamelCaseNamingStrategy()
+                new JsonSerializerSettings(ContractResolver = contractResolver)
 
         // Add framework services.
         services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1) |> ignore

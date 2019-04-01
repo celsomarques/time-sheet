@@ -2,7 +2,6 @@
 
 open System
 open Npgsql.FSharp
-open TimeSheet
 
 type Model =
 

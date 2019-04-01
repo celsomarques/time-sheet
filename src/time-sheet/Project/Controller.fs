@@ -3,16 +3,10 @@
 open System
 open Microsoft.AspNetCore.Mvc
 open Newtonsoft.Json
-open Newtonsoft.Json.Serialization
 
 [<Route("api/[controller]")>]
 type ProjectsController() =
     inherit Controller()
-
-    member private this.toJson project =
-        let contractResolver = DefaultContractResolver(NamingStrategy = CamelCaseNamingStrategy())
-        let settings = new JsonSerializerSettings(ContractResolver = contractResolver)
-        JsonConvert.SerializeObject(project, settings)
 
     [<HttpGet>]
     member this.Get() =
@@ -22,7 +16,7 @@ type ProjectsController() =
     member this.Get(id: Guid) =
         let result = Repository.FindById(id)
         match result with
-        | Some project ->  ContentResult(Content = this.toJson(project))
+        | Some project -> ContentResult(Content = JsonConvert.SerializeObject(project))
         | None -> ContentResult(StatusCode = Nullable(404))
 
     [<HttpPost>]
