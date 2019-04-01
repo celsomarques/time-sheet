@@ -12,24 +12,24 @@ module BaseRepository =
 
     let FindAll query mapRowFunc =
         Query query []
-        |> Sql.executeTable
-        |> Sql.mapEachRow mapRowFunc
+        |> Sql.executeTableAsync
+        |> Async.map (Sql.mapEachRow mapRowFunc)
 
     let FindBy query mapRowFunc parameters =
         Query query parameters
-        |> Sql.executeTable
-        |> Sql.mapEachRow mapRowFunc
+        |> Sql.executeTableAsync
+        |> Async.map (Sql.mapEachRow mapRowFunc)
 
     let FindById query (id: Guid) mapRowFunc =
         [ "id", Sql.Value id ]
         |> FindBy query mapRowFunc
-        |> List.tryHead
+        |> Async.map (List.tryHead)
 
     let Save query parameters =
         Query query parameters
-        |> Sql.executeNonQuery
+        |> Sql.executeNonQueryAsync
 
     let Delete query (id: Guid) =
         [ "id", Sql.Value id ]
         |> Query query
-        |> Sql.executeNonQuery
+        |> Sql.executeNonQueryAsync

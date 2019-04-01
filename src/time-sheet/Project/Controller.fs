@@ -14,10 +14,12 @@ type ProjectsController() =
 
     [<HttpGet("{id}")>]
     member this.Get(id: Guid) =
-        let result = Repository.FindById(id)
-        match result with
-        | Some project -> ContentResult(Content = JsonConvert.SerializeObject(project))
-        | None -> ContentResult(StatusCode = Nullable(404))
+        async {
+            let! result = Repository.FindById(id)
+            match result with
+            | Some project -> return ContentResult(Content = JsonConvert.SerializeObject(project))
+            | None -> return ContentResult(StatusCode = Nullable(404))
+        }
 
     [<HttpPost>]
     member this.Post([<FromBody>] project: Model) =
