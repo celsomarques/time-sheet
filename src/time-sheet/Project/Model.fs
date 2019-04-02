@@ -1,31 +1,20 @@
 ﻿namespace TimeSheet.Project
 
 open System
-open Npgsql.FSharp
+open System.ComponentModel.DataAnnotations
+open System.ComponentModel.DataAnnotations.Schema
 
-type Model =
+[<CLIMutable>]
+[<Table("projects")>]
+type Project = {
 
-    struct
-        val mutable Id: Guid
-        val mutable Name: string
-        val mutable Description: string
+    [<Key>]
+    [<Column("id")>]
+    Id: Guid
 
-        new(id: Guid, name: string, description: string) = {Id = id; Name = name; Description = description;}
-    end
+    [<Column("name")>]
+    Name: string
 
-
-    static member mapRow row = 
-        match row with
-        |
-            [
-                "id", SqlValue.Uuid id
-                "name", SqlValue.String name
-                "description", SqlValue.String description
-            ] ->
-            Some (Model(id, name, description))
-
-        | _ -> None
-
-
-    override this.ToString() =
-        sprintf "{ id: %s, name: %s, description: %s }" (this.Id.ToString()) this.Name this.Description
+    [<Column("description")>]
+    Description: string
+}

@@ -1,31 +1,20 @@
 ﻿namespace TimeSheet.Project
 
 open System
-open Npgsql.FSharp
+open System.Linq
 open TimeSheet
 
-module Repository =
+module ProjectRepository =
 
-    let FIND_ALL_QUERY = "SELECT id, name, description FROM projects"
-
-    let FIND_BY_ID = "SELECT id, name, description FROM projects where id = @id"
-
-    let UPSERT_QUERY =
-        [
-            "INSERT INTO projects (id, name, description) values"
-            "(@id, @name, @description) ON CONFLICT (id)"
-            "DO UPDATE SET name = @name, description = @description"
-        ]
-        |> String.concat " "
-
-    let DELETE_QUERY = "DELETE FROM projects WHERE id = @id"
+    let context = new ProjectContext()
 
     let FindAll() =
-        BaseRepository.FindAll FIND_ALL_QUERY Model.mapRow
+        context.Project.ToList()
 
     let FindById(id: Guid) =
-        BaseRepository.FindById FIND_BY_ID id Model.mapRow
+        context.Project.FindAsync(id) |> Async.AwaitTask
 
+(*
     let Save(id: Guid, model: Model) =
         [
             "id", Sql.Value id
@@ -36,3 +25,5 @@ module Repository =
 
     let Delete(id: Guid) =
         BaseRepository.Delete DELETE_QUERY id
+
+        *)

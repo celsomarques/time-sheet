@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
     <AWSProjectType>Lambda</AWSProjectType>
     <RootNamespace>TimeSheet</RootNamespace>
@@ -12,10 +12,13 @@
     <Folder Include="Base\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="migrations\migrations.csproj" />
+    <Compile Remove="Base\BaseRepository.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base\BaseContext.fs" />
     <Compile Include="Lib\Postgres.fs" />
-    <Compile Include="Base\BaseRepository.fs" />
     <Compile Include="Project\Model.fs" />
+    <Compile Include="Project\Context.fs" />
     <Compile Include="Project\Repository.fs" />
     <Compile Include="Project\Controller.fs" />
     <None Include="Readme.md" />
@@ -23,9 +26,10 @@
     <Compile Include="LambdaEntryPoint.fs" />
     <Compile Include="LocalEntryPoint.fs" />
     <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="3.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.4" />
-    <PackageReference Include="Npgsql.FSharp" Version="1.4.0" />
     <PackageReference Include="Amazon.Lambda.Core" Version="1.1.0" />
     <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.5.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.3" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.0" />
+    <ProjectReference Include="migrations\migrations.csproj" />
   </ItemGroup>
 </Project>
