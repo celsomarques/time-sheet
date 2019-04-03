@@ -13,24 +13,28 @@ type ProjectsController() =
         ProjectRepository.FindAll()
 
     [<HttpGet("{id}")>]
-    member this.Get(id: Guid) =
-        async {
-            let! result = ProjectRepository.FindById(id)
+    member this.Get(id: Guid) = async {
 
-            let hasValue = not (box result = null)
+        let! result = ProjectRepository.FindById(id)
+
+        let hasValue = not (box result = null)
+        return
             match hasValue with
-            | false -> return ContentResult(StatusCode = Nullable(404))
-            | true -> return ContentResult(Content = JsonConvert.SerializeObject(result))
-        }
+            | false -> ContentResult(StatusCode = Nullable(404))
+            | true -> ContentResult(Content = JsonConvert.SerializeObject(result))
+    }
 
     [<HttpPost>]
-    member this.Post([<FromBody>] project: Project) =
-        () //Repository.Save(Guid.NewGuid(), project)
+    member this.Post([<FromBody>] project: Project) = async {
+        return! ProjectRepository.Insert(project)
+    }
 
     [<HttpPut("{id}")>]
-    member this.Put(id: Guid, [<FromBody>] project: Project) =
-        () //Repository.Save(id, project)
+    member this.Put(id: Guid, [<FromBody>] project: Project) = async {
+        return! ProjectRepository.Update(project)
+    }
 
     [<HttpDelete("{id}")>]
-    member this.Delete(id: Guid) =
-        () //Repository.Delete(id)
+    member this.Delete(id: Guid) = async {
+        return! ProjectRepository.Delete(id)
+    }

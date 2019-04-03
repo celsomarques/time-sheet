@@ -2,7 +2,7 @@
 
 open System
 open System.Linq
-open TimeSheet
+open Microsoft.EntityFrameworkCore
 
 module ProjectRepository =
 
@@ -14,16 +14,16 @@ module ProjectRepository =
     let FindById(id: Guid) =
         context.Project.FindAsync(id) |> Async.AwaitTask
 
-(*
-    let Save(id: Guid, model: Model) =
-        [
-            "id", Sql.Value id
-            "name", Sql.Value model.Name
-            "description", Sql.Value model.Description
-        ]
-        |> BaseRepository.Save UPSERT_QUERY
+    let Insert(project: Project) =
+        context.Project.Add(project) |> ignore
+        context.SaveChangesAsync() |> Async.AwaitTask
 
-    let Delete(id: Guid) =
-        BaseRepository.Delete DELETE_QUERY id
+    let Update(project: Project) =
+        context.Project.Update(project) |> ignore
+        context.SaveChangesAsync() |> Async.AwaitTask
 
-        *)
+    let Delete(id: Guid) = async {
+        let! project = FindById(id)
+        context.Project.Remove(project) |> ignore
+        return context.SaveChangesAsync() |> Async.AwaitTask
+    }

@@ -31,5 +31,6 @@
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.3" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.0" />
     <ProjectReference Include="migrations\migrations.csproj" />
+    <PackageReference Include="FlexLabs.EntityFrameworkCore.Upsert" Version="2.0.7" />
   </ItemGroup>
 </Project>

@@ -9,6 +9,7 @@ open System.ComponentModel.DataAnnotations.Schema
 type Project = {
 
     [<Key>]
+    [<DatabaseGenerated(DatabaseGeneratedOption.Identity)>]
     [<Column("id")>]
     Id: Guid
 
