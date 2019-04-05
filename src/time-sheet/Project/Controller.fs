@@ -15,7 +15,7 @@ type ProjectsController() =
     [<HttpGet("{id}")>]
     member this.Get(id: Guid) = async {
 
-        let! result = ProjectRepository.FindById(id)
+        let! result = ProjectRepository.FindById(id) |> Async.AwaitTask
 
         let hasValue = not (box result = null)
         return
@@ -26,12 +26,13 @@ type ProjectsController() =
 
     [<HttpPost>]
     member this.Post([<FromBody>] project: Project) = async {
-        return! ProjectRepository.Insert(project)
+        project.Id <- Guid.NewGuid()
+        return! ProjectRepository.Upsert(project) |> Async.AwaitTask
     }
 
     [<HttpPut("{id}")>]
     member this.Put(id: Guid, [<FromBody>] project: Project) = async {
-        return! ProjectRepository.Update(project)
+        return! ProjectRepository.Upsert(project) |> Async.AwaitTask
     }
 
     [<HttpDelete("{id}")>]
