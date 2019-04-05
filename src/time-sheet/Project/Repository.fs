@@ -14,14 +14,6 @@ module ProjectRepository =
     let FindById(id: Guid) =
         context.Project.FindAsync(id)
 
-    let Insert(project: Project) =
-        context.Project.Add(project) |> ignore
-        context.SaveChangesAsync()
-
-    let Update(project: Project) =
-        context.Project.Update(project) |> ignore
-        context.SaveChangesAsync()
-
     let Upsert(project: Project) =
         context.Project.Upsert(project).RunAsync()
 
