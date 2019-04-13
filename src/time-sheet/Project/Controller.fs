@@ -10,14 +10,14 @@ type ProjectsController() =
 
     [<HttpGet>]
     member this.Get() =
-        ProjectRepository.FindAll()
+        ProjectRepository.Search() |> Async.AwaitTask
 
     [<HttpGet("{id}")>]
     member this.Get(id: Guid) = async {
 
         let! result = ProjectRepository.FindById(id) |> Async.AwaitTask
 
-        let hasValue = not (box result = null)
+        let hasValue = not (isNull (box result))
         return
             match hasValue with
             | false -> ContentResult(StatusCode = Nullable(404))
@@ -25,17 +25,14 @@ type ProjectsController() =
     }
 
     [<HttpPost>]
-    member this.Post([<FromBody>] project: Project) = async {
+    member this.Post([<FromBody>] project: Project) =
         project.Id <- Guid.NewGuid()
-        return! ProjectRepository.Upsert(project) |> Async.AwaitTask
-    }
+        ProjectRepository.Upsert(project) |> Async.AwaitTask
 
     [<HttpPut("{id}")>]
-    member this.Put(id: Guid, [<FromBody>] project: Project) = async {
-        return! ProjectRepository.Upsert(project) |> Async.AwaitTask
-    }
+    member this.Put(id: Guid, [<FromBody>] project: Project) =
+        ProjectRepository.Upsert(project) |> Async.AwaitTask
 
     [<HttpDelete("{id}")>]
-    member this.Delete(id: Guid) = async {
-        return! ProjectRepository.Delete(id)
-    }
+    member this.Delete(id: Guid) =
+        ProjectRepository.Delete(id)

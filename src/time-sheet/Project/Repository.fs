@@ -1,15 +1,19 @@
 ﻿namespace TimeSheet.Project
 
 open System
-open System.Linq
+open System.Threading.Tasks
 open Microsoft.EntityFrameworkCore
 
 module ProjectRepository =
 
     let context = new ProjectContext()
 
-    let FindAll() =
-        context.Project.AsNoTracking().ToList()
+    let Search() =
+        let query = query {
+            for project in context.Project do
+            select project
+        }
+        query.AsNoTracking().ToListAsync()
 
     let FindById(id: Guid) =
         context.Project.FindAsync(id)
@@ -17,8 +21,9 @@ module ProjectRepository =
     let Upsert(project: Project) =
         context.Project.Upsert(project).RunAsync()
 
-    let Delete(id: Guid) = async {
-        let! project = FindById(id) |> Async.AwaitTask
-        context.Project.Remove(project) |> ignore
-        return context.SaveChangesAsync() |> Async.AwaitTask
-    }
+    let Delete(id: Guid) =
+        async {
+            let! project = FindById(id) |> Async.AwaitTask
+            context.Project.Remove(project) |> ignore
+            return context.SaveChanges()
+        }

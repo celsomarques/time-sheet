@@ -5,13 +5,13 @@ open System.ComponentModel.DataAnnotations
 open System.ComponentModel.DataAnnotations.Schema
 
 [<Table("projects")>]
-type Project(Id0: Guid, Name0: string, Description0: string) =
+type Project(id0: Guid, name0: string, description0: string) =
 
-    let mutable id: Guid = Id0
-    let mutable name: string = Name0
-    let mutable description: string = Description0
+    let mutable id: Guid = id0
+    let mutable name: string = name0
+    let mutable description: string = description0
 
-    new() = new Project(Guid.Empty, "", "")
+    new() = Project(Guid.Empty, "", "")
 
     [<Key>]
     [<DatabaseGenerated(DatabaseGeneratedOption.None)>]
