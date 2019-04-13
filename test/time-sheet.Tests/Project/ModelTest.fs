@@ -3,7 +3,7 @@
 open System
 open Xunit
 
-open TimeSheet.Project
+open TimeSheet
 
 module ProjectModelTest =
 

@@ -7,7 +7,6 @@
     <EnableDefaultContentItems>false</EnableDefaultContentItems>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Lib\" />
     <Folder Include="Project\" />
     <Folder Include="Base\" />
   </ItemGroup>
@@ -16,11 +15,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\BaseContext.fs" />
-    <Compile Include="Lib\Postgres.fs" />
     <Compile Include="Project\Model.fs" />
     <Compile Include="Project\Context.fs" />
     <Compile Include="Project\Repository.fs" />
     <Compile Include="Project\Controller.fs" />
+    <Compile Include="Customer\Model.fs" />
+    <Compile Include="Customer\Context.fs" />
+    <Compile Include="Customer\Repository.fs" />
+    <Compile Include="Customer\Controller.fs" />
     <None Include="Readme.md" />
     <Compile Include="Startup.fs" />
     <Compile Include="LambdaEntryPoint.fs" />

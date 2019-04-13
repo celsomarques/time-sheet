@@ -1,4 +1,4 @@
-﻿namespace TimeSheet.Project
+﻿namespace TimeSheet
 
 open System
 open System.Threading.Tasks

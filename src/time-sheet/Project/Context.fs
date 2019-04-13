@@ -1,4 +1,4 @@
-﻿namespace TimeSheet.Project
+﻿namespace TimeSheet
 
 open TimeSheet
 open Microsoft.EntityFrameworkCore

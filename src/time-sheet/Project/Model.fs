@@ -1,4 +1,4 @@
-﻿namespace TimeSheet.Project
+﻿namespace TimeSheet
 
 open System
 open System.ComponentModel.DataAnnotations
@@ -10,6 +10,7 @@ type Project(id0: Guid, name0: string, description0: string) =
     let mutable id: Guid = id0
     let mutable name: string = name0
     let mutable description: string = description0
+    let mutable customerId: Guid = Guid.Empty
 
     new() = Project(Guid.Empty, "", "")
 
@@ -29,3 +30,8 @@ type Project(id0: Guid, name0: string, description0: string) =
     member this.Description
         with get() = description
         and set(v) = description <- v
+
+    [<Column("customer_id")>]
+    member this.CustomerId
+        with get() = customerId
+        and set(v) = customerId <- v
