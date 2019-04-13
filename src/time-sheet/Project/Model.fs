@@ -1,31 +1,37 @@
-﻿namespace TimeSheet.Project
+﻿namespace TimeSheet
 
 open System
-open Npgsql.FSharp
+open System.ComponentModel.DataAnnotations
+open System.ComponentModel.DataAnnotations.Schema
 
-type Model =
+[<Table("projects")>]
+type Project(id0: Guid, name0: string, description0: string) =
 
-    struct
-        val mutable Id: Guid
-        val mutable Name: string
-        val mutable Description: string
+    let mutable id: Guid = id0
+    let mutable name: string = name0
+    let mutable description: string = description0
+    let mutable customerId: Guid = Guid.Empty
 
-        new(id: Guid, name: string, description: string) = {Id = id; Name = name; Description = description;}
-    end
+    new() = Project(Guid.Empty, "", "")
 
+    [<Key>]
+    [<DatabaseGenerated(DatabaseGeneratedOption.None)>]
+    [<Column("id")>]
+    member this.Id
+        with get() = id
+        and set(v) = id <- v
 
-    static member mapRow row = 
-        match row with
-        |
-            [
-                "id", SqlValue.Uuid id
-                "name", SqlValue.String name
-                "description", SqlValue.String description
-            ] ->
-            Some (Model(id, name, description))
+    [<Column("name")>]
+    member this.Name
+        with get() = name
+        and set(v) = name <- v
 
-        | _ -> None
+    [<Column("description")>]
+    member this.Description
+        with get() = description
+        and set(v) = description <- v
 
-
-    override this.ToString() =
-        sprintf "{ id: %s, name: %s, description: %s }" (this.Id.ToString()) this.Name this.Description
+    [<Column("customer_id")>]
+    member this.CustomerId
+        with get() = customerId
+        and set(v) = customerId <- v

@@ -1,38 +1,29 @@
-﻿namespace TimeSheet.Project
+﻿namespace TimeSheet
 
 open System
-open Npgsql.FSharp
-open TimeSheet
+open System.Threading.Tasks
+open Microsoft.EntityFrameworkCore
 
-module Repository =
+module ProjectRepository =
 
-    let FIND_ALL_QUERY = "SELECT id, name, description FROM projects"
+    let context = new ProjectContext()
 
-    let FIND_BY_ID = "SELECT id, name, description FROM projects where id = @id"
-
-    let UPSERT_QUERY =
-        [
-            "INSERT INTO projects (id, name, description) values"
-            "(@id, @name, @description) ON CONFLICT (id)"
-            "DO UPDATE SET name = @name, description = @description"
-        ]
-        |> String.concat " "
-
-    let DELETE_QUERY = "DELETE FROM projects WHERE id = @id"
-
-    let FindAll() =
-        BaseRepository.FindAll FIND_ALL_QUERY Model.mapRow
+    let Search() =
+        let query = query {
+            for project in context.Project do
+            select project
+        }
+        query.AsNoTracking().ToListAsync()
 
     let FindById(id: Guid) =
-        BaseRepository.FindById FIND_BY_ID id Model.mapRow
+        context.Project.FindAsync(id)
 
-    let Save(id: Guid, model: Model) =
-        [
-            "id", Sql.Value id
-            "name", Sql.Value model.Name
-            "description", Sql.Value model.Description
-        ]
-        |> BaseRepository.Save UPSERT_QUERY
+    let Upsert(project: Project) =
+        context.Project.Upsert(project).RunAsync()
 
     let Delete(id: Guid) =
-        BaseRepository.Delete DELETE_QUERY id
+        async {
+            let! project = FindById(id) |> Async.AwaitTask
+            context.Project.Remove(project) |> ignore
+            return context.SaveChanges()
+        }

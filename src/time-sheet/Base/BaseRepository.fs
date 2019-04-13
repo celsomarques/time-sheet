@@ -1,7 +1,6 @@
 ﻿namespace TimeSheet
 
 open System
-open Npgsql.FSharp
 
 module BaseRepository =
 
@@ -10,7 +9,7 @@ module BaseRepository =
         |> Sql.query query
         |> Sql.parameters parameters
 
-    let FindAll query mapRowFunc =
+(*    let FindAll query mapRowFunc =
         Query query []
         |> Sql.executeTableAsync
         |> Async.map (Sql.mapEachRow mapRowFunc)
@@ -33,3 +32,4 @@ module BaseRepository =
         [ "id", Sql.Value id ]
         |> Query query
         |> Sql.executeNonQueryAsync
+        *)

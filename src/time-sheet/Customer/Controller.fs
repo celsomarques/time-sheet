@@ -5,17 +5,17 @@ open Microsoft.AspNetCore.Mvc
 open Newtonsoft.Json
 
 [<Route("api/[controller]")>]
-type ProjectsController() =
+type CustomersController() =
     inherit Controller()
 
     [<HttpGet>]
     member this.Get() =
-        ProjectRepository.Search() |> Async.AwaitTask
+        CustomerRepository.Search() |> Async.AwaitTask
 
     [<HttpGet("{id}")>]
     member this.Get(id: Guid) = async {
 
-        let! result = ProjectRepository.FindById(id) |> Async.AwaitTask
+        let! result = CustomerRepository.FindById(id) |> Async.AwaitTask
 
         let hasValue = not (isNull (box result))
         return
@@ -25,14 +25,14 @@ type ProjectsController() =
     }
 
     [<HttpPost>]
-    member this.Post([<FromBody>] project: Project) =
-        project.Id <- Guid.NewGuid()
-        ProjectRepository.Upsert(project) |> Async.AwaitTask
+    member this.Post([<FromBody>] customer: Customer) =
+        customer.Id <- Guid.NewGuid()
+        CustomerRepository.Upsert(customer) |> Async.AwaitTask
 
     [<HttpPut("{id}")>]
-    member this.Put(id: Guid, [<FromBody>] project: Project) =
-        ProjectRepository.Upsert(project) |> Async.AwaitTask
+    member this.Put(id: Guid, [<FromBody>] customer: Customer) =
+        CustomerRepository.Upsert(customer) |> Async.AwaitTask
 
     [<HttpDelete("{id}")>]
     member this.Delete(id: Guid) =
-        ProjectRepository.Delete(id)
+        CustomerRepository.Delete(id)

@@ -28,7 +28,9 @@ namespace Migrations
                     AddPostgres().
                     WithGlobalConnectionString(CONNECTION_STR).
                     ScanIn(
-                        typeof(CreateProjectTable).Assembly
+                        typeof(CreateProjectTable).Assembly,
+                        typeof(CreateCustomerTable).Assembly,
+                        typeof(AddColumnsToProjectTable).Assembly
                     ).For.Migrations()).
                 AddLogging(lb => lb.AddFluentMigratorConsole()).
                 BuildServiceProvider(false);

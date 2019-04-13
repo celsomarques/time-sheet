@@ -20,7 +20,7 @@ type Startup(configuration: IConfiguration) =
             fun () -> 
                 let contractResolver = DefaultContractResolver()
                 contractResolver.NamingStrategy <- CamelCaseNamingStrategy()
-                new JsonSerializerSettings(ContractResolver = contractResolver)
+                JsonSerializerSettings(ContractResolver = contractResolver)
 
         // Add framework services.
         services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1) |> ignore

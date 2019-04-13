@@ -3,7 +3,7 @@
 open System
 open Xunit
 
-open TimeSheet.Project
+open TimeSheet
 
 module ProjectModelTest =
 
@@ -14,7 +14,7 @@ module ProjectModelTest =
         let name = "Name"
         let description = "Description"
 
-        let model = Model(id, name, description)
+        let model = Project(id, name, description)
         Assert.Equal(id, model.Id)
         Assert.Equal(name, model.Name)
         Assert.Equal(description, model.Description)
@@ -22,7 +22,7 @@ module ProjectModelTest =
     [<Fact>]
     let ``new Model() and mutate field values``() =
 
-        let mutable model = Model()
+        let mutable model = Project()
         model.Id <- Guid.NewGuid()
         model.Name <- "New Name"
         model.Description <- "New Description"
